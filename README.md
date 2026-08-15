@@ -1,4 +1,4 @@
-# HireMe.Ai 🤖💼
+# HireMe.Ai 🤖
 
 HireMe.Ai is an advanced, end-to-end AI Recruiter SaaS platform that automates the most time-consuming parts of the hiring process: candidate sourcing, phone screening, and interview scheduling.
 
