@@ -40,6 +40,37 @@ The application is built using a modern, decoupled architecture:
 
 ---
 
+## 🏛️ System Architecture
+
+```mermaid
+graph TD
+    %% Frontend
+    subgraph Client
+        UI[Next.js Frontend\nDashboard & UI]
+    end
+
+    %% Backend
+    subgraph Server
+        API[FastAPI Backend\nREST API & Logic]
+        DB[(MongoDB\nCache & Data Store)]
+    end
+
+    %% External APIs
+    subgraph External Integrations
+        Coresignal[Coresignal API\nCandidate Sourcing]
+        Hunar[Hunar Voice AI\nTelephony Provider]
+    end
+
+    %% Interactions
+    UI <-->|HTTP JSON| API
+    API <-->|Motor Async| DB
+    API -->|1. Find/Enrich| Coresignal
+    API -->|2. Dispatch Call| Hunar
+    Hunar -->|3. Webhook Results| API
+```
+
+---
+
 ## ✨ Features
 
 - **Automated Candidate Sourcing**: Search for candidates by Job Title, Skills, and Location.
@@ -127,6 +158,39 @@ Data enrichment APIs (like Coresignal or Apollo) are highly expensive and charge
    npm run dev
    ```
 5. Open [http://localhost:3000](http://localhost:3000) in your browser!
+
+---
+
+## 💡 Part 3: Solving HR Problems with LLMs (No Apps Needed!)
+
+**The Scenario:** *If there were no smartphones (no mobile apps) but LLMs existed, how would an HR manager track the attendance of 1000 people every day across 100 locations?*
+
+Since there are no smartphones, we cannot use internet-based mobile apps. However, we still have standard feature phones, landlines, and SMS! By connecting LLMs directly to traditional telecom networks, we can create a fully automated attendance system that feels like magic. 
+
+Here are three ways an HR manager could solve this:
+
+### 1. The "Toll-Free LLM Voice Agent" (Inbound Calls)
+Every location has at least a basic landline or standard cell phone.
+- The HR team sets up a toll-free phone number powered by an **LLM Voice Agent** (just like the Hunar AI agent in this project).
+- When employees arrive, they dial the number from the location's phone.
+- The AI answers: *"Good morning! Please state your name and employee ID."*
+- The employee says: *"It's John Doe, ID 405."*
+- **The Magic:** The LLM transcribes the audio, understands the intent, verifies the caller ID of the location's phone to prevent fraud, and instantly marks John as "Present" in the central database. 
+
+### 2. The "Automated AI Roll Call" (Outbound Calls)
+Instead of waiting for employees to call in, the AI completely eliminates human tracking by calling everyone directly.
+- At 9:00 AM every morning, the LLM Voice Agent automatically dials all **1000 employees** simultaneously on their basic cell phones.
+- The AI asks: *"Good morning! Are you currently at the worksite and starting your shift?"*
+- The employee simply answers: *"Yes, I just got here."*
+- **The Magic:** The LLM processes all 1000 conversations at the exact same time, identifies who said "yes" and who didn't answer, and instantly updates the central database. The HR manager does **zero manual counting**—they just open their computer and see the final attendance report already completed!
+
+### 3. The "Smart SMS Bot"
+Since regular cell phones still have SMS text messaging:
+- Employees simply send a text message to a dedicated number when they arrive: *"Checking in at Location B."*
+- An LLM reads the incoming SMS. Because LLMs understand natural language, the employee doesn't need to use strict, robotic formatting. They could text *"I'm here,"* or *"Running 10 mins late,"* or *"At the site."*
+- **The Magic:** The LLM reads the message, understands the meaning, looks up the phone number to identify the employee, and logs their status into the database.
+
+**Summary:** Without smartphones, you lose visual apps, but with LLMs, you gain intelligent conversations. By connecting an LLM to standard telecom networks (Calls & SMS), you can automate the tracking of 1000 people effortlessly, requiring zero technical training for the employees—they just talk or text normally!
 
 ---
 *Built with ❤️ for modern recruiting.*
