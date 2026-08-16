@@ -66,7 +66,7 @@ graph TD
     API <-->|Motor Async| DB
     API -->|1. Find/Enrich| Coresignal
     API -->|2. Dispatch Call| Hunar
-    Hunar -->|3. Webhook Results| API
+    API <-->|3. Auto-Sync Polling| Hunar
 ```
 
 ---
@@ -76,7 +76,7 @@ graph TD
 - **Automated Candidate Sourcing**: Search for candidates by Job Title, Skills, and Location.
 - **One-Click AI Outreach**: Instantly dispatch a Voice AI agent to call a candidate on their mobile phone.
 - **Conversational Screening**: The AI naturally asks about experience, salary expectations, notice period, and interview availability.
-- **Real-Time Webhooks**: The moment the candidate hangs up, the call transcript and AI-extracted summary are pushed to the dashboard.
+- **Auto-Sync Polling**: The backend automatically syncs with the AI provider when you view the dashboard to fetch the latest call transcripts and summaries without needing complex webhook setups.
 - **Dynamic Dashboard**: View hiring pipelines, conversion metrics, and recent call activities at a glance.
 - **Cost-Optimized Enrichment**: Intelligent API usage to prevent massive billing spikes.
 
@@ -90,8 +90,8 @@ graph TD
 4. **Enrichment**: The backend queries Coresignal to find the candidate's personal mobile phone number.
 5. **AI Dispatch**: The backend sends the phone number and Job Details to the Hunar AI API.
 6. **The Call**: Hunar physically calls the candidate. The AI introduces itself, conducts the screening, and hangs up.
-7. **The Summary**: A webhook fires back to the FastAPI backend containing the transcript and a structured JSON summary of the candidate's answers.
-8. **Pipeline Update**: The dashboard instantly updates to show if the candidate was "Qualified" and "Interested".
+7. **Auto-Sync**: When the recruiter views the dashboard, the backend automatically polls Hunar for the latest call statuses, transcripts, and structured JSON summaries of the candidates' answers.
+8. **Pipeline Update**: The dashboard updates to show if the candidate was "Qualified" and "Interested".
 
 ---
 
