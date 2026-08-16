@@ -64,15 +64,17 @@ The application is built using a modern, decoupled architecture:
 
 ---
 
-## 💡 How I Reduced the Extra Cost of Coresignal API
+## 💡 How I Reduced Extra API Costs
 
-Data enrichment APIs like Coresignal are highly expensive and charge per API hit. 
+Data enrichment APIs (like Coresignal or Apollo) are highly expensive and charge per API hit. I implemented two major cost-saving strategies:
 
-Initially, when searching for candidates, one might be tempted to query Coresignal for *all* 500 candidates returned in a search result to display their phone numbers on the UI. This would incur massive costs, even for candidates the recruiter doesn't actually want to call.
+### 1. Database Caching for Search Results
+**The Problem:** If a recruiter searches for candidates for a "Senior Python Engineer" role, evaluates a few, and then comes back the next day to find more candidates for the *same* role, clicking "Find Candidates" again would trigger another expensive API search, duplicating costs for data we already paid for.
+**The Solution:** All sourced candidates are permanently cached in **MongoDB** under their respective Job ID. When a recruiter opens a job, the system instantly loads the candidates from the local database for free. We only hit the external search API if the recruiter explicitly requests *more/new* candidates.
 
-**The Solution:** I implemented an **On-Demand Enrichment Strategy**. 
-When a recruiter searches for candidates, the app only fetches basic, cheap metadata (Name, Title, Company). We do *not* query Coresignal. 
-Only when the recruiter explicitly clicks the **"Start AI Outreach"** button on a specific candidate does the backend fire a targeted request to Coresignal just for that single person. This guarantees that API credits are *only* spent on candidates who are actually being called, reducing external API costs by over 95%.
+### 2. On-Demand Phone Enrichment
+**The Problem:** Querying external APIs for personal phone numbers is the most expensive operation. Finding 500 candidates and fetching 500 phone numbers immediately would incur massive costs, even for candidates the recruiter doesn't actually want to call.
+**The Solution:** I implemented an **On-Demand Enrichment Strategy**. When searching for candidates, the app only fetches basic, cheap metadata (Name, Title, Company). We do *not* fetch phone numbers yet. Only when the recruiter explicitly clicks the **"Start AI Outreach"** button on a specific candidate does the backend fire a targeted request to Coresignal just for that single person. This guarantees that premium credits are *only* spent on candidates who are actually being called, reducing external API costs by over 95%.
 
 ---
 
